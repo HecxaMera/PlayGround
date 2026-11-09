@@ -16,7 +16,7 @@
     <header class="topbar">
       <a class="brand" href="#overview" aria-label="Orebit home"><span class="brand-mark">O<span></span></span><span>ORE<span class="brand-light">BIT</span><small>DEEP SPACE INDUSTRIES</small></span></a>
       <div class="season"><i></i> SECTOR 07 <span>·</span> THE LACUNA</div>
-      <button class="sound-button" id="sound-toggle" aria-label="Toggle ambient effects">◖))</button>
+      <button class="sound-button" id="sound-toggle" aria-label="Turn sound on" aria-pressed="false"><span aria-hidden="true">♫</span><span class="sound-label">Sound off</span></button>
       <div class="top-level"><span>COMMANDER</span><b id="level-top">LVL 01</b></div>
     </header>
 
@@ -26,10 +26,10 @@
       <aside class="sidebar">
         <div class="nav-label">OPERATIONS</div>
         <nav class="main-nav" aria-label="Main navigation">
-          <button class="nav-item active" data-view="overview"><span class="nav-icon">◈</span><span>Overview</span><span class="nav-chevron">›</span></button>
-          <button class="nav-item" data-view="fleet"><span class="nav-icon">⌁</span><span>Fleet</span><span class="nav-badge" id="fleet-count">1</span></button>
-          <button class="nav-item" data-view="research"><span class="nav-icon">⌘</span><span>Research</span></button>
-          <button class="nav-item" data-view="prestige"><span class="nav-icon">✳</span><span>Ascension</span><span class="nav-badge amber" id="ascension-dot" hidden>!</span></button>
+          <button class="nav-item active" data-view="overview"><span class="nav-icon">◈</span><span>Mining</span><span class="nav-chevron">›</span></button>
+          <button class="nav-item" data-view="fleet"><span class="nav-icon">⌁</span><span>Ships</span><span class="nav-badge" id="fleet-count">1</span></button>
+          <button class="nav-item" data-view="research"><span class="nav-icon">⌘</span><span>Discoveries</span></button>
+          <button class="nav-item" data-view="prestige"><span class="nav-icon">✳</span><span>Legacy</span><span class="nav-badge amber" id="ascension-dot" hidden>!</span></button>
         </nav>
         <div class="sidebar-bottom">
           <div class="signal-card"><span class="signal-dot"></span><div><b>ALL SYSTEMS NOMINAL</b><small>Last sync <span id="sync-time">just now</span></small></div></div>
@@ -41,18 +41,18 @@
         <div class="mobile-heading"><span>SECTOR 07 · THE LACUNA</span><b id="mobile-level">COMMANDER · LVL 01</b></div>
         <section class="planet-card">
           <div class="planet-copy">
-            <div class="eyebrow"><span class="live-pulse"></span> ACTIVE OPERATION <span class="eyebrow-divider">/</span> <span id="planet-state">EXTRACTION IN PROGRESS</span></div>
+            <div class="eyebrow"><span class="live-pulse"></span> MINING NOW <span class="eyebrow-divider">·</span> <span id="planet-state">SHIPS WORK AUTOMATICALLY</span></div>
             <h1>Vesper <span>IV</span></h1>
-            <p class="planet-description">A mineral-rich world on the edge of known space.</p>
-            <div class="planet-tags"><span>◉ CLASS M · ROCKY</span><span>⌖ 2.4 AU</span></div>
-            <div class="site-readout"><span class="site-dot"></span><span id="site-copy">SITE 01 — THE SHATTERED BASIN</span></div>
+            <p class="planet-description">A quiet little mining operation at the edge of space.</p>
+            <div class="planet-tags"><span>YOUR SHIPS ARE ON THE JOB</span></div>
+            <div class="site-readout"><span class="site-dot"></span><span id="site-copy">A FRESH LOAD IS ON ITS WAY</span></div>
           </div>
           <div class="planet-art" aria-label="Animated ship mining a ringed planet">
             <canvas id="space-canvas"></canvas>
             <div class="canvas-label"><span>VESPER IV</span><small>37° 12′ N / 08° 44′ E</small></div>
             <div class="scanline"></div>
           </div>
-          <div class="planet-footer"><span><i class="tiny-live"></i> LIVE FEED</span><span>ORBITAL VIEW <b>01 / 04</b></span><span id="ship-count-label">1 SHIP DEPLOYED</span></div>
+          <div class="planet-footer"><span><i class="tiny-live"></i> LIVE</span><span>MINING CREW AT VESPER IV</span><span id="ship-count-label">1 SHIP DEPLOYED</span></div>
         </section>
 
         <div class="section-heading"><div><span class="eyebrow">COMMAND DECK</span><h2 id="view-title">Your operation</h2></div><div class="rate-pill"><span class="rate-icon">↗</span><span><b id="income-rate">0</b><small>ORE / MIN</small></span></div></div>
