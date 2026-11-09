@@ -27,4 +27,4 @@ A cozy low-poly fishing clicker. Tap the big fish to catch fish, then recruit Pe
 npm run dev
 ```
 
-Then open [http://localhost:3002](http://localhost:3002).
+Then open [http://localhost:3000](http://localhost:3000).
