@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090d17">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%230d1722'/%3E%3Ctext x='8' y='29' font-family='sans-serif' font-size='27' font-weight='700' fill='%2383ebc7'%3EO%3C/text%3E%3C/svg%3E">
+  <title>Orebit — Deep Space Mining</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#overview" aria-label="Orebit home"><span class="brand-mark">O<span></span></span><span>ORE<span class="brand-light">BIT</span><small>DEEP SPACE INDUSTRIES</small></span></a>
+      <div class="season"><i></i> SECTOR 07 <span>·</span> THE LACUNA</div>
+      <button class="sound-button" id="sound-toggle" aria-label="Toggle ambient effects">◖))</button>
+      <div class="top-level"><span>COMMANDER</span><b id="level-top">LVL 01</b></div>
+    </header>
+
+    <section class="resource-bar" aria-label="Resources" id="resource-bar"></section>
+
+    <div class="workspace">
+      <aside class="sidebar">
+        <div class="nav-label">OPERATIONS</div>
+        <nav class="main-nav" aria-label="Main navigation">
+          <button class="nav-item active" data-view="overview"><span class="nav-icon">◈</span><span>Overview</span><span class="nav-chevron">›</span></button>
+          <button class="nav-item" data-view="fleet"><span class="nav-icon">⌁</span><span>Fleet</span><span class="nav-badge" id="fleet-count">1</span></button>
+          <button class="nav-item" data-view="research"><span class="nav-icon">⌘</span><span>Research</span></button>
+          <button class="nav-item" data-view="prestige"><span class="nav-icon">✳</span><span>Ascension</span><span class="nav-badge amber" id="ascension-dot" hidden>!</span></button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="signal-card"><span class="signal-dot"></span><div><b>ALL SYSTEMS NOMINAL</b><small>Last sync <span id="sync-time">just now</span></small></div></div>
+          <div class="version">OREBIT MINING CORP. <span>v1.0.7</span></div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <div class="mobile-heading"><span>SECTOR 07 · THE LACUNA</span><b id="mobile-level">COMMANDER · LVL 01</b></div>
+        <section class="planet-card">
+          <div class="planet-copy">
+            <div class="eyebrow"><span class="live-pulse"></span> ACTIVE OPERATION <span class="eyebrow-divider">/</span> <span id="planet-state">EXTRACTION IN PROGRESS</span></div>
+            <h1>Vesper <span>IV</span></h1>
+            <p class="planet-description">A mineral-rich world on the edge of known space.</p>
+            <div class="planet-tags"><span>◉ CLASS M · ROCKY</span><span>⌖ 2.4 AU</span></div>
+            <div class="site-readout"><span class="site-dot"></span><span id="site-copy">SITE 01 — THE SHATTERED BASIN</span></div>
+          </div>
+          <div class="planet-art" aria-label="Animated ship mining a ringed planet">
+            <canvas id="space-canvas"></canvas>
+            <div class="canvas-label"><span>VESPER IV</span><small>37° 12′ N / 08° 44′ E</small></div>
+            <div class="scanline"></div>
+          </div>
+          <div class="planet-footer"><span><i class="tiny-live"></i> LIVE FEED</span><span>ORBITAL VIEW <b>01 / 04</b></span><span id="ship-count-label">1 SHIP DEPLOYED</span></div>
+        </section>
+
+        <div class="section-heading"><div><span class="eyebrow">COMMAND DECK</span><h2 id="view-title">Your operation</h2></div><div class="rate-pill"><span class="rate-icon">↗</span><span><b id="income-rate">0</b><small>ORE / MIN</small></span></div></div>
+        <section id="view-content" class="view-content" aria-live="polite"></section>
+        <footer class="footer-note"><span>◈</span> Your operation is saved automatically <span class="footer-sep">·</span> Progress continues while you’re away</footer>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
