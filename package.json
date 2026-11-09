@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "mkdir -p dist && cp index.html styles.css game.js dist/",
     "start": "node server.js",
     "dev": "node server.js"
   }
