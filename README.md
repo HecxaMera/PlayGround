@@ -16,3 +16,15 @@
 - 👤 [Explore the creator's projects](https://go.ondev.store/HecxaMera).
 - 🌍 [Create with OMGithub](https://go.ondev.store/).
 <!-- omgithub:readme:end -->
+
+## Little Tide
+
+A cozy low-poly fishing clicker. Tap the big fish to catch fish, then recruit Pebble, Moss, and Bubbles to earn fish automatically. Your progress is saved locally, with a little offline production when you return.
+
+### Play locally
+
+```sh
+npm run dev
+```
+
+Then open [http://localhost:3002](http://localhost:3002).
