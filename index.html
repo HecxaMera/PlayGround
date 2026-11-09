@@ -37,6 +37,8 @@
         <div class="eyebrow"><span class="eyebrow-icon">↗</span> YOUR CATCH</div>
         <div class="catch-number" id="catch-total">0</div>
         <div class="catch-foot"><span class="mini-fish">◆</span><span id="rate-label">0</span> <span>fish / sec</span></div>
+        <div class="combo-readout"><span>✦ COMBO</span><b id="combo-label">x1.0</b><span id="combo-count">0 taps</span></div>
+        <div class="combo-meter"><span id="combo-fill"></span></div>
         <div class="catch-progress"><span id="goal-fill"></span></div>
         <div class="goal-label"><span>next little helper</span><b id="goal-label">15 fish</b></div>
       </div>
@@ -66,6 +68,15 @@
           <span class="shop-art art-bubbles"><span class="otter-face">ᵔᴥᵔ</span><span class="art-fish">✦</span></span>
           <span class="shop-info"><span class="shop-name">Bubbles</span><span class="shop-desc">Tide expert</span><span class="shop-buy"><span class="buy-cost">400</span><span class="fish-token">◆</span></span></span>
           <span class="owned-count">0</span>
+        </button>
+      </div>
+      <div class="upgrade-heading"><span>✦ TAP UPGRADES</span><small>Build your streak, boost every catch</small></div>
+      <div class="upgrade-grid">
+        <button class="upgrade-card" id="power-upgrade">
+          <span class="upgrade-icon">↗</span><span class="upgrade-info"><b>Swift fins</b><small id="power-desc">+1 fish per tap</small></span><span class="upgrade-cost"><span id="power-cost">35</span><i>◆</i></span>
+        </button>
+        <button class="upgrade-card" id="combo-upgrade">
+          <span class="upgrade-icon combo-icon">✧</span><span class="upgrade-info"><b>Combo charm</b><small id="combo-desc">Longer, stronger streaks</small></span><span class="upgrade-cost"><span id="combo-cost">75</span><i>◆</i></span>
         </button>
       </div>
     </section>

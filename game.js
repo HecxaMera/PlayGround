@@ -7,13 +7,16 @@ const tiers = [
   { name: 'Moss', base: 80, rate: 6, tint: 0x9b7758, accent: 0xe9c995 },
   { name: 'Bubbles', base: 400, rate: 30, tint: 0x765d51, accent: 0xf0d4b4 },
 ];
-let state = { fish: 0, total: 0, owned: [0, 0, 0], last: Date.now() };
+let state = { fish: 0, total: 0, owned: [0, 0, 0], powerLevel: 0, comboLevel: 0, last: Date.now() };
+let combo = 0, comboTimer = null;
 try {
   const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
   if (saved && Array.isArray(saved.owned)) {
     state.fish = Math.max(0, Number(saved.fish) || 0);
     state.total = Math.max(state.fish, Number(saved.total) || 0);
     state.owned = tiers.map((_, i) => Math.max(0, Math.floor(Number(saved.owned[i]) || 0)));
+    state.powerLevel = Math.max(0, Math.floor(Number(saved.powerLevel) || 0));
+    state.comboLevel = Math.max(0, Math.floor(Number(saved.comboLevel) || 0));
     const away = Math.min(8 * 60 * 60, Math.max(0, (Date.now() - (Number(saved.last) || Date.now())) / 1000));
     state.fish += ratePerSecond() * away;
     state.total += ratePerSecond() * away;
@@ -22,6 +25,13 @@ try {
 
 function ratePerSecond() { return state.owned.reduce((sum, count, i) => sum + count * tiers[i].rate, 0); }
 function costAt(i) { return Math.floor(tiers[i].base * Math.pow(1.16, state.owned[i])); }
+function powerCost() { return Math.floor(35 * Math.pow(1.72, state.powerLevel)); }
+function comboCost() { return Math.floor(75 * Math.pow(1.9, state.comboLevel)); }
+function comboWindow() { return 1350 + state.comboLevel * 220; }
+function comboMultiplier() {
+  const steps = Math.floor(combo / 5);
+  return Math.min(5 + state.comboLevel, 1 + steps * (0.5 + state.comboLevel * 0.25));
+}
 function pretty(n) {
   if (n < 1000) return Math.floor(n).toLocaleString('en-US');
   const suffix = n < 1e6 ? 'K' : n < 1e9 ? 'M' : 'B';
@@ -170,6 +180,10 @@ function updateUI() {
   $('fish-count').textContent = pretty(state.fish);
   $('catch-total').textContent = pretty(state.total);
   $('rate-label').textContent = pretty(ratePerSecond());
+  $('combo-label').textContent = `x${comboMultiplier().toFixed(1)}`;
+  $('combo-count').textContent = `${combo} ${combo === 1 ? 'tap' : 'taps'}`;
+  $('combo-fill').style.width = `${combo ? (combo % 5 === 0 ? 100 : (combo % 5) * 20) : 0}%`;
+  $('combo-fill').classList.toggle('combo-hot', combo >= 5);
   $('crew-count').textContent = state.owned.reduce((a, b) => a + b, 0);
   $('ocean-level').textContent = `DAY ${String(Math.floor(state.total / 100) + 1).padStart(2, '0')}`;
   const firstLocked = tiers.findIndex((_, i) => state.owned[i] === 0);
@@ -186,6 +200,15 @@ function updateUI() {
     card.disabled = state.fish < cost;
     card.classList.toggle('affordable', state.fish >= cost);
   });
+  const pCost = powerCost(), cCost = comboCost();
+  $('power-cost').textContent = pretty(pCost);
+  $('combo-cost').textContent = pretty(cCost);
+  $('power-desc').textContent = `+1 per tap · Lv ${state.powerLevel}`;
+  $('combo-desc').textContent = `+${(0.5 + state.comboLevel * 0.25).toFixed(2)}x / 5 taps · ${(comboWindow() / 1000).toFixed(2)}s`;
+  $('power-upgrade').disabled = state.fish < pCost;
+  $('combo-upgrade').disabled = state.fish < cCost;
+  $('power-upgrade').classList.toggle('affordable', state.fish >= pCost);
+  $('combo-upgrade').classList.toggle('affordable', state.fish >= cCost);
   const crew = $('crew-avatars');
   crew.innerHTML = '';
   const totalCrew = state.owned.reduce((a, b) => a + b, 0);
@@ -212,14 +235,33 @@ function chime() {
   } catch { /* audio is a gentle enhancement, never required */ }
 }
 $('fish-click').addEventListener('click', (event) => {
-  state.fish += 1; state.total += 1; fish.scale.setScalar(1.06); fish.userData.squish = 1;
-  popText('+1 fish', event.clientX, event.clientY); chime(); updateUI(); save();
+  combo++;
+  const multiplier = comboMultiplier();
+  const gain = (1 + state.powerLevel) * multiplier;
+  state.fish += gain; state.total += gain; fish.scale.setScalar(1.06); fish.userData.squish = 1;
+  popText(`+${pretty(gain)} fish${multiplier > 1 ? ` · x${multiplier.toFixed(1)}` : ''}`, event.clientX, event.clientY);
+  if (combo === 5 || combo % 10 === 0) popText(`${combo} TAP STREAK!`, window.innerWidth * .5, window.innerHeight * .34);
+  window.clearTimeout(comboTimer);
+  comboTimer = window.setTimeout(() => { combo = 0; updateUI(); }, comboWindow());
+  chime(); updateUI(); save();
 });
 document.querySelectorAll('.shop-card').forEach((card) => card.addEventListener('click', () => {
   const i = Number(card.dataset.tier), cost = costAt(i);
   if (state.fish < cost) return;
   state.fish -= cost; state.owned[i]++; syncOtters(); updateUI(); save(); popText(`${tiers[i].name} joined!`, window.innerWidth * .5, window.innerHeight * .72);
 }));
+$('power-upgrade').addEventListener('click', () => {
+  const cost = powerCost();
+  if (state.fish < cost) return;
+  state.fish -= cost; state.powerLevel++; updateUI(); save();
+  popText('Swift fins upgraded!', window.innerWidth * .5, window.innerHeight * .68);
+});
+$('combo-upgrade').addEventListener('click', () => {
+  const cost = comboCost();
+  if (state.fish < cost) return;
+  state.fish -= cost; state.comboLevel++; updateUI(); save();
+  popText('Combo charm upgraded!', window.innerWidth * .5, window.innerHeight * .68);
+});
 $('sound-button').addEventListener('click', () => { soundOn = !soundOn; $('sound-icon').textContent = soundOn ? '♪' : '×'; $('sound-button').setAttribute('aria-label', soundOn ? 'Mute sound' : 'Enable sound'); if (soundOn) chime(); });
 window.addEventListener('beforeunload', save);
 window.setInterval(() => { const rate = ratePerSecond(); if (rate > 0) { state.fish += rate; state.total += rate; updateUI(); } save(); }, 1000);
